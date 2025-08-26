@@ -5,4 +5,5 @@ import com.gamecodeschool.arequipafind.domain.models.Review
 interface ReviewRepository {
     suspend fun addReview(review: Review): Review
     suspend fun getReviewsByUser(userId: String): List<Review>
+    suspend fun getReviewsByJob(jobId: String): List<Review>
 }

@@ -10,6 +10,7 @@ class JobRepositoryImpl @Inject constructor(
 ) : JobRepository {
     override suspend fun createdJob(job: Jobs): Jobs = remote.createJob(job)
     override suspend fun getJobsFeed(): List<Jobs> = remote.getJobsFeed()
+    override suspend fun getJobsById(id:String):Jobs? = remote.getJobsById(id)
     override suspend fun assignJob(jobId: String, workerId: String): Jobs = remote.assignJob(jobId, workerId)
-    override suspend fun completeJob(jobId: String): Jobs = remote.completeJob(jobId)
+    override suspend fun completeJob(jobId: String, workerId: String): Jobs = remote.completeJob(jobId,workerId)
 }

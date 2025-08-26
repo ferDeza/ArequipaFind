@@ -10,4 +10,5 @@ class ReviewRepositoryImpl @Inject constructor(
 ) : ReviewRepository {
     override suspend fun addReview(review: Review): Review = remote.addReview(review)
     override suspend fun getReviewsByUser(userId: String): List<Review> = remote.getReviewsByUser(userId)
+    override suspend fun getReviewsByJob(id:String): List<Review> = remote.getReviewsByJob(id)
 }
