@@ -11,12 +11,19 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import android.content.Context
+import com.gamecodeschool.arequipafind.data.remote.firebase.JobRemoteDataSource
+import com.gamecodeschool.arequipafind.data.remote.firebase.ReviewRemoteDataSource
 import com.gamecodeschool.arequipafind.data.remote.firebase.UserRemoteDataSource
+import com.gamecodeschool.arequipafind.data.repository.JobRepositoryImpl
+import com.gamecodeschool.arequipafind.data.repository.ReviewRepositoryImpl
 import com.gamecodeschool.arequipafind.data.repository.UserRepositoryImpl
+import com.gamecodeschool.arequipafind.domain.repository.JobRepository
+import com.gamecodeschool.arequipafind.domain.repository.ReviewRepository
 import com.gamecodeschool.arequipafind.domain.repository.UserRepository
 import com.gamecodeschool.arequipafind.domain.usecases.CheckProfileStatusUseCase
 import com.gamecodeschool.arequipafind.domain.usecases.EnsureProfileAfterLoginUseCase
 import com.gamecodeschool.arequipafind.domain.usecases.LoginWithGoogleUseCase
+import com.gamecodeschool.arequipafind.domain.usecases.AddReviewUseCase
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.*
@@ -42,7 +49,12 @@ object AppModule {
     @Provides @Singleton
     fun provideUserRemoteDataSource(firestore: FirebaseFirestore): UserRemoteDataSource =
         UserRemoteDataSource(firestore)
-
+    @Provides @Singleton
+    fun provideReviewRemoteDataSource(firestore: FirebaseFirestore): ReviewRemoteDataSource =
+        ReviewRemoteDataSource(firestore)
+    @Provides @Singleton
+    fun provideJobRemoteDataSource(firestore: FirebaseFirestore) : JobRemoteDataSource =
+        JobRemoteDataSource(firestore)
     // Repositories
     @Provides @Singleton
     fun provideAuthRepository(
@@ -55,6 +67,14 @@ object AppModule {
         remote: UserRemoteDataSource
     ): UserRepository = UserRepositoryImpl(remote)
 
+    @Provides @Singleton
+    fun provideReviewRepository(
+        remote : ReviewRemoteDataSource
+    ): ReviewRepository = ReviewRepositoryImpl(remote)
+    @Provides @Singleton
+    fun provideJobRepository(
+        remote : JobRemoteDataSource
+    ): JobRepository = JobRepositoryImpl(remote)
     // Use cases
     @Provides @Singleton
     fun provideLoginUseCase(repo: AuthRepository): LoginUseCase =
@@ -82,4 +102,9 @@ object AppModule {
         authRepository: AuthRepository,
         userRepository: UserRepository
     ):EnsureProfileAfterLoginUseCase = EnsureProfileAfterLoginUseCase(authRepository,userRepository)
+    @Provides @Singleton
+    fun provideAddReviewUseCase(
+        reviewRepository : ReviewRepository
+    ):AddReviewUseCase=AddReviewUseCase(reviewRepository)
+
 }

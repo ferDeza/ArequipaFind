@@ -8,7 +8,8 @@ sealed class NavRoutes(val route: String) {
     object Home: NavRoutes ("Home")
     object Register: NavRoutes("Register")
     object Profile:NavRoutes("Profile")
-
+    object Jobs:NavRoutes("Jobs")
+    object Review:NavRoutes("Review")
 
 
 }
