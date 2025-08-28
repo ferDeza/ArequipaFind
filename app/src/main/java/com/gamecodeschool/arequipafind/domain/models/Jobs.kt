@@ -1,5 +1,7 @@
 package com.gamecodeschool.arequipafind.domain.models
 
+import com.gamecodeschool.arequipafind.domain.models.status.JobStatus
+
 data class Jobs (
     val id:String="",
     val title:String="",

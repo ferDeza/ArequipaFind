@@ -21,7 +21,7 @@ class CreateJobViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    private val _uiEvent = MutableSharedFlow<CreateJobUiEvent>()
+    public val _uiEvent = MutableSharedFlow<CreateJobUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
     fun createJob(title: String, description: String, finalPrice: Double?) {

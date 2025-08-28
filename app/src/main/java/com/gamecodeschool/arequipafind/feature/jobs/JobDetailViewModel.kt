@@ -86,6 +86,9 @@ class JobDetailViewModel @Inject constructor(
             }
         }
     }
+    fun getCurrentUserId():String?{
+        return authRepository.currentUserId()
+    }
 
     sealed class JobUiEvent {
         object Assigned : JobUiEvent()

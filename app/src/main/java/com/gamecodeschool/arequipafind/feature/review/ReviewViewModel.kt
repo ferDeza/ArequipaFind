@@ -13,13 +13,13 @@ class ReviewViewModel @Inject constructor(
     private val addReviewUseCase: AddReviewUseCase,
     private val authRepository: AuthRepository
 ):ViewModel(){
-    private val _uiEvent= MutableSharedFlow<ReviewUIEvent>()
+    private val _uiEvent= MutableSharedFlow<ReviewUiEvent>()
     val uiEvent=_uiEvent.asSharedFlow()
 
-fun submitEvent(jobId:String, reviewedId:String,rating:Int,comment:String){
+fun submitReview(jobId:String, reviewedId:String,rating:Int,comment:String){
     val reviewerId=authRepository.currentUserId()
     if(reviewerId==null){
-        viewModelScope.launch { _uiEvent.emit(ReviewUIEvent.Error("no autentificado")) }
+        viewModelScope.launch { _uiEvent.emit(ReviewUiEvent.Error("no autentificado")) }
         return
     }
     val review=Review(
@@ -34,9 +34,9 @@ fun submitEvent(jobId:String, reviewedId:String,rating:Int,comment:String){
     viewModelScope.launch{
         try{
             addReviewUseCase(jobId,reviewerId, reviewedId, rating, comment)
-            _uiEvent.emit(ReviewUIEvent.Saved)
+            _uiEvent.emit(ReviewUiEvent.Saved)
         }catch (e:Exception){
-            _uiEvent.emit(ReviewUIEvent.Error(e.message ?: "Error al guardar reseña"))
+            _uiEvent.emit(ReviewUiEvent.Error(e.message ?: "Error al guardar reseña"))
         }
 
     }
@@ -47,9 +47,9 @@ fun submitEvent(jobId:String, reviewedId:String,rating:Int,comment:String){
 
 
 
-sealed class ReviewUIEvent{
-    object Saved : ReviewUIEvent()
-    data class Error(val message :String):ReviewUIEvent()
+sealed class ReviewUiEvent{
+    object Saved : ReviewUiEvent()
+    data class Error(val message :String):ReviewUiEvent()
 
 
 }
